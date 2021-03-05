@@ -61,6 +61,7 @@ Future<ApiResponse> createUser(User user) async {
 
   try {
     user.mdp = hashMdp(user.mdp);
+    log('${user.nom}');
     final response = await http.post('${_baseUrl}user',
         headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'},
         body: jsonEncode(user));

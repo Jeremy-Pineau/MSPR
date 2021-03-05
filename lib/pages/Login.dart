@@ -7,6 +7,8 @@ import 'package:scanqrcode/model/User.dart';
 import 'package:scanqrcode/service/UserService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'CreateUser.dart';
+
 class Login extends StatefulWidget {
   @override
   _Login createState() => _Login();
@@ -90,9 +92,13 @@ class _Login extends State<Login> {
                           ButtonBar(
                             children: <Widget>[
                               RaisedButton.icon(
+                                  onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUser()));},
+                                  icon: Icon(Icons.add),
+                                  label: Text('Inscription')),
+                              RaisedButton.icon(
                                   onPressed: _handleSubmitted,
                                   icon: Icon(Icons.arrow_forward),
-                                  label: Text('Sign in')),
+                                  label: Text('Connection')),
                             ],
                           ),
                         ],
@@ -113,7 +119,10 @@ class _Login extends State<Login> {
       if (_apiResponse.ApiError == null) {
         _saveAndRedirectToHome();
       } else {
-        _info = "aaaaaaaaa";
+        setState(() {
+          _info = "Identifiant ou mot de passe incorrect";
+        });
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => Login(info: "aaaaaaaaaaaa")));
       }
     }
   }
