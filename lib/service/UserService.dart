@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String _baseUrl = "http://192.168.43.187:9000/";
+String _baseUrl = "http://192.168.1.19:9000/";
 
 String hashMdp(String mdp) {
   String salt = 'UVocjgjgXg8P7zIsC93kKlRU8sPbTBhsAMFLnLUPDRYFIWAk';
@@ -61,7 +61,6 @@ Future<ApiResponse> createUser(User user) async {
 
   try {
     user.mdp = hashMdp(user.mdp);
-    log('${user.nom}');
     final response = await http.post('${_baseUrl}user',
         headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'},
         body: jsonEncode(user));
