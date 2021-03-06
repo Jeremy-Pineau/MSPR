@@ -1,13 +1,10 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:scanqrcode/model/ApiError.dart';
 import 'package:scanqrcode/model/ApiResponse.dart';
 import 'package:scanqrcode/model/User.dart';
 import 'package:scanqrcode/service/UserService.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:email_validator/email_validator.dart';
 
-import 'AppHome.dart';
-import 'Compte.dart';
 import 'Login.dart';
 
 class CreateUser extends StatefulWidget {
@@ -111,6 +108,10 @@ class _CreateUser extends State<CreateUser> {
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'Mail manquant';
+                          } else {
+                            if (!EmailValidator.validate(value)) {
+                              return "Mail invalide";
+                            }
                           }
                           return null;
                         },
@@ -122,6 +123,12 @@ class _CreateUser extends State<CreateUser> {
                         obscureText: true,
                         onSaved: (String value) {
                           mdp = value;
+                        },
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Mail manquant';
+                          }
+                          return null;
                         },
                       ),
                       const SizedBox(height: 10.0),
@@ -143,15 +150,21 @@ class _CreateUser extends State<CreateUser> {
   }
 
   void _createUser() async {
-    final FormState form = _formKey.currentState;
-    form.save();
-    _apiResponse = await createUser(User(nom, prenom, adresse, mail, mdp));
-    if ((_apiResponse.ApiError as ApiError) != null) {
-      setState(() {
-        info = "Mail déjà existant";
-      });
+    _formKey.currentState.save();
+    if (_formKey.currentState.validate()) {
+      _apiResponse = await createUser(User(nom, prenom, adresse, mail, mdp));
+      if ((_apiResponse.ApiError as ApiError) != null) {
+        setState(() {
+          info = "Mail déjà existant";
+        });
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Login()));
+      }
     } else {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+      setState(() {
+        info = "Formulaire invalide";
+      });
     }
   }
 }
