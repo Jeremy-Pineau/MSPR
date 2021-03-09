@@ -2,12 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:scanqrcode/model/ApiResponse.dart';
 import 'package:scanqrcode/model/ApiError.dart';
+import 'package:scanqrcode/model/Promotion.dart';
 import 'package:scanqrcode/model/User.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String _baseUrl = "http://192.168.1.17:9000/user";
+String _baseUrl = "http://192.168.1.19:9000/user";
 
 String hashMdp(String mdp) {
   String salt = 'UVocjgjgXg8P7zIsC93kKlRU8sPbTBhsAMFLnLUPDRYFIWAk';
@@ -78,6 +79,31 @@ Future<ApiResponse> getUser(String userId) async {
     final response = await http.get('$_baseUrl/$userId');
 
     traitementResponse(response, _apiResponse);
+
+  } on SocketException {
+    _apiResponse.ApiError = ApiError(error: "Server error. Please retry");
+  }
+  return _apiResponse;
+}
+
+Future<ApiResponse> getHistoriqueFromUser(String userId) async {
+  ApiResponse _apiResponse = new ApiResponse();
+  try {
+    final response = await http.get('$_baseUrl/historique/$userId');
+
+    switch (response.statusCode) {
+      case 200:
+        Iterable l = json.decode(response.body);
+        List<Promotion> promos = List<Promotion>.from(l.map((model)=> Promotion.fromJson(model)));
+        _apiResponse.Data = promos;
+        break;
+      case 401:
+        _apiResponse.ApiError = ApiError.fromJson(json.decode(response.body));
+        break;
+      default:
+        _apiResponse.ApiError = ApiError.fromJson(json.decode(response.body));
+        break;
+    }
 
   } on SocketException {
     _apiResponse.ApiError = ApiError(error: "Server error. Please retry");
