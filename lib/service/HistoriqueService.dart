@@ -5,7 +5,7 @@ import 'package:scanqrcode/model/ApiError.dart';
 import 'package:scanqrcode/model/Historique.dart';
 import 'package:http/http.dart' as http;
 
-String _baseUrl = "http://192.168.1.19:9000/historique";
+String _baseUrl = "http://192.168.1.17:9000/historique";
 
 Future<ApiResponse> getHistoriqueFromUser(int userId) async {
   ApiResponse _apiResponse = new ApiResponse();

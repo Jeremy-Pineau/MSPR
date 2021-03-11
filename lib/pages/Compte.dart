@@ -8,10 +8,10 @@ class Compte extends StatefulWidget {
 }
 
 class _Compte extends State<Compte> {
-  String _nom;
-  String _prenom;
-  String _mail;
-  String _adresse;
+  String _nom = "";
+  String _prenom = "";
+  String _mail = "";
+  String _adresse = "";
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class _Compte extends State<Compte> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundImage: NetworkImage("https://www.w3schools.com/howto/img_avatar.png"),
+                      backgroundImage: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYmGZO_o8W8nOdixsSxkmRPvgswXslVRBqpQ&usqp=CAU"),
                       radius: 50.0
                     ),
                     SizedBox(

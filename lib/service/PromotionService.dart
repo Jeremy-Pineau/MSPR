@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String _baseUrl = "http://192.168.1.19:9000/promotion";
+String _baseUrl = "http://192.168.1.17:9000/promotion";
 
 void traitementResponse(response, ApiResponse _apiResponse){
   switch (response.statusCode) {
