@@ -152,7 +152,7 @@ class _CreateUser extends State<CreateUser> {
   void _createUser() async {
     _formKey.currentState.save();
     if (_formKey.currentState.validate()) {
-      _apiResponse = await createUser(User(nom, prenom, adresse, mail, mdp));
+      _apiResponse = await createUser(User(null, nom, prenom, adresse, mail, mdp));
       if ((_apiResponse.ApiError as ApiError) != null) {
         setState(() {
           info = "Mail déjà existant";

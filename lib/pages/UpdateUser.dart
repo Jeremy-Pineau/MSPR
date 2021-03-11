@@ -168,7 +168,7 @@ class _UpdateUser extends State<UpdateUser> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _formKey.currentState.save();
     if (_formKey.currentState.validate()) {
-      _apiResponse = await updateUser(User(nom, prenom, adresse, mail, mdp));
+      _apiResponse = await updateUser(User(prefs.getInt("id"), nom, prenom, adresse, mail, mdp));
       if ((_apiResponse.ApiError as ApiError) == null) {
         if (_apiResponse.UpdateMdp) {
           prefs.clear();

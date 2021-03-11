@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Accueil.dart';
 import 'Compte.dart';
-import 'Historique.dart';
+import 'HistoriquePage.dart';
 import 'ScanPage.dart';
 import 'Settings.dart';
 
@@ -43,7 +43,7 @@ class _AppHomeState extends State<AppHome> with SingleTickerProviderStateMixin {
         controller: _tabController,
         children: <Widget>[
           Accueil(),
-          Historique(),
+          HistoriquePage(),
           Compte(),
           Settings(),
         ],

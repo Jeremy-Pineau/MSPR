@@ -80,7 +80,7 @@ class _Settings extends State<Settings> {
     Widget continueButton = FlatButton(
       child: Text("Continuer"),
       onPressed:  () {
-        us.deleteUser(prefs.getString("mail"));
+        us.deleteUser(prefs.getInt("id"));
         _handleLogout();
       },
     );

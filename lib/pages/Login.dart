@@ -122,13 +122,13 @@ class _Login extends State<Login> {
         setState(() {
           _info = "Identifiant ou mot de passe incorrect";
         });
-        // Navigator.push(context, MaterialPageRoute(builder: (context) => Login(info: "aaaaaaaaaaaa")));
       }
     }
   }
 
   void _saveAndRedirectToHome() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt("id", (_apiResponse.Data as User).id);
     await prefs.setString("nom", (_apiResponse.Data as User).nom);
     await prefs.setString("prenom", (_apiResponse.Data as User).prenom);
     await prefs.setString("mail", (_apiResponse.Data as User).mail);
