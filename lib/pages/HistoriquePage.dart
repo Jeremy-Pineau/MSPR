@@ -50,7 +50,7 @@ class _Historique extends State<HistoriquePage> {
                                       ListTile(
                                           title: RichText(
                                             text: TextSpan(
-                                              text: '${promos[i].codePromo} : ${promos[i].detail} \n ${new DateFormat('yyyy-MM-dd hh:mm').format(histos[i].dateScan)}',
+                                              text: '${promos[i].codePromo} : ${promos[i].detail} \n ${histos[i].dateScan}',
                                               style: TextStyle(fontSize: 15.0),
                                             ),
                                             textAlign: TextAlign.center,

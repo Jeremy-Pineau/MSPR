@@ -1,15 +1,16 @@
+import 'dart:developer';
+
+import 'package:intl/intl.dart';
+
 class Historique {
   int _id;
   int _idPromo;
   int _idUser;
-  DateTime _dateScan;
+  String _dateScan;
 
-  Historique({int id, int idPromo, int idUser, DateTime dateScan}) {
-    this._id = id;
-    this._idPromo = idPromo;
-    this._idUser = idUser;
-    this._dateScan = dateScan;
-  }
+
+  Historique(this._id, this._idPromo, this._idUser, this._dateScan);
+
 
   int get id => _id;
   set id(int id) => _id = id;
@@ -17,15 +18,15 @@ class Historique {
   set idPromo(int idPromo) => _idPromo = idPromo;
   int get idUser => _idUser;
   set idUser(int idUser) => _idUser = idUser;
-  DateTime get dateScan => _dateScan;
-  set dateScan(DateTime dateScan) => _dateScan = dateScan;
+  String get dateScan => _dateScan;
+  set dateScan(String dateScan) => _dateScan = dateScan;
 
 
   Historique.fromJson(Map<String, dynamic> json) {
     _id = json['id'];
     _idPromo = json['idPromo'];
     _idUser = json['idUser'];
-    _dateScan = DateTime.parse(json['dateScan']);
+    _dateScan = DateFormat("yyyy-MM-dd HH:mm").format(DateTime.parse(json['dateScan']));
   }
 
   Map<String, dynamic> toJson() {

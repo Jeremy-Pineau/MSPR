@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:scanqrcode/model/ApiResponse.dart';
 import 'package:scanqrcode/model/ApiError.dart';
@@ -45,7 +46,21 @@ Future<ApiResponse> getPromotion(int id) async {
   try {
     final response = await http.get('$_baseUrl/$id');
 
-    traitementResponse(response, _apiResponse);
+    switch (response.statusCode) {
+      case 200:
+        if (response.body == ""){
+          _apiResponse.Data = null;
+        } else {
+          _apiResponse.Data = Promotion.fromJson(json.decode(response.body));
+        }
+        break;
+      case 401:
+        _apiResponse.ApiError = ApiError.fromJson(json.decode(response.body));
+        break;
+      default:
+        _apiResponse.ApiError = ApiError.fromJson(json.decode(response.body));
+        break;
+    }
 
   } on SocketException {
     _apiResponse.ApiError = ApiError(error: "Server error. Please retry");

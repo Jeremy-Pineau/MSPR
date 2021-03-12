@@ -1,6 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:scanqrcode/model/ApiResponse.dart';
+import 'package:scanqrcode/model/Historique.dart';
+import 'package:scanqrcode/service/HistoriqueService.dart';
+import 'package:scanqrcode/service/PromotionService.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ScanPage extends StatefulWidget {
@@ -36,7 +44,7 @@ class _ScanPageState extends State<ScanPage> {
                     new GestureDetector(
                       child: Center(
                         child:
-                        Text(((qrCodeResult == null) || (qrCodeResult == "")) ? "Cliquer sur l'icone pour scanner" : "Résultat : \n\n" + qrCodeResult,
+                        Text(((qrCodeResult == null) || (qrCodeResult == "")) ? "Cliquer sur l'icone pour scanner" : qrCodeResult,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
                         ),
@@ -54,9 +62,44 @@ class _ScanPageState extends State<ScanPage> {
         useCamera: 0,
       ),
     );
-    // parse le qrcode, si bon type envoyer requete api
-    setState(() {
-      qrCodeResult = codeSanner.rawContent;
-    });
+
+    // parse le qrcode
+    var code = codeSanner.rawContent.split(";");
+    if (code[0] == "qrScanAppMspr"){
+      // QrCode valide
+      ApiResponse response = await getPromotion(int.parse(code[1]));
+      if(response.Data != null){
+        // Promotion existe
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        int id = prefs.get("id");
+        ApiResponse res = await getHistoriqueFromUserAndPromo(id, int.parse(code[1]));
+        if (res.Data == null){
+          // Promotion pas dans l'historique de l'user
+          var responseCreate = await createHistorique(Historique(null, int.parse(code[1]), id, DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now()).toString()));
+          if (responseCreate.Data == 1){
+            // Insertion réussie
+            setState(() {
+              qrCodeResult = "Scan succes !";
+            });
+          } else {
+            setState(() {
+              qrCodeResult = "Erreur serveur";
+            });
+          }
+        } else {
+          setState(() {
+            qrCodeResult = "Promotion déjà scanée";
+          });
+        }
+      } else {
+        setState(() {
+          qrCodeResult = "La promotion liée à ce code n'existe pas/plus";
+        });
+      }
+    } else{
+      setState(() {
+        qrCodeResult = "Code non conforme à l'app";
+      });
+    }
   }
 }
