@@ -20,23 +20,23 @@ class _ScanPageState extends State<ScanPage> {
           Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.qr_code_scanner),
-                  tooltip: 'Scanner',
-                  onPressed: () {
-                    _scan();
-                  },
-                  iconSize: 60,
-                ),
+                Center(
+                child: ConstrainedBox(
+                    constraints: BoxConstraints.tightFor(width: MediaQuery.of(context).size.width/3, height: MediaQuery.of(context).size.height/5),
+                      child:
+                      FloatingActionButton(
+                        onPressed: () {
+                          _scan();
+                        },
+                        child: Icon(Icons.qr_code_scanner, size: 55.0),
+                      ),
+                    )),
                 Container(
                     child:
                     new GestureDetector(
-                      onTap: () {
-                        _launch(qrCodeResult);
-                      },
                       child: Center(
                         child:
-                        Text(((qrCodeResult == null) || (qrCodeResult == "")) ? "Please Scan to show some result" : "Résultat : \n\n" + qrCodeResult,
+                        Text(((qrCodeResult == null) || (qrCodeResult == "")) ? "Cliquer sur l'icone pour scanner" : "Résultat : \n\n" + qrCodeResult,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
                         ),
@@ -48,20 +48,13 @@ class _ScanPageState extends State<ScanPage> {
     );
   }
 
-  _launch(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch';
-    }
-  }
-
   Future<void> _scan() async {
     ScanResult codeSanner = await BarcodeScanner.scan(
       options: ScanOptions(
         useCamera: 0,
       ),
     );
+    // parse le qrcode, si bon type envoyer requete api
     setState(() {
       qrCodeResult = codeSanner.rawContent;
     });

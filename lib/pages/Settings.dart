@@ -81,7 +81,8 @@ class _Settings extends State<Settings> {
       child: Text("Continuer"),
       onPressed:  () {
         us.deleteUser(prefs.getInt("id"));
-        _handleLogout();
+        prefs.clear();
+        Navigator.pushNamedAndRemoveUntil(context, '/login', ModalRoute.withName('/login'));
       },
     );
     // set up the AlertDialog

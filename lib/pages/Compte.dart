@@ -19,9 +19,19 @@ class _Compte extends State<Compte> {
     return Scaffold(
         body: Column(
           children: <Widget>[
+            Padding(padding: EdgeInsets.only(top: 15.0),
+                child:
+                RichText(
+                  text: TextSpan(
+                    text: "Compte : ",
+                    style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
+                  ),
+                  textAlign: TextAlign.center,
+                )
+            ),
             Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.65,
+              height: MediaQuery.of(context).size.height * 0.60,
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
