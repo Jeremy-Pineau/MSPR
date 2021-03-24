@@ -1,17 +1,14 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:scanqrcode/model/ApiResponse.dart';
+import 'package:scanqrcode/model/dto/ApiResponse.dart';
 import 'package:scanqrcode/model/Historique.dart';
+import 'package:scanqrcode/model/dto/HistoData.dart';
 import 'package:scanqrcode/service/HistoriqueService.dart';
 import 'package:scanqrcode/service/PromotionService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../main.dart';
 
 class ScanPage extends StatefulWidget {
   @override
@@ -35,6 +32,8 @@ class _ScanPageState extends State<ScanPage> {
                     constraints: BoxConstraints.tightFor(width: MediaQuery.of(context).size.width/3, height: MediaQuery.of(context).size.height/5),
                       child:
                       FloatingActionButton(
+                        backgroundColor: Color(0xff3C3B3A),
+                        elevation: 20,
                         onPressed: () {
                           _scan();
                         },
@@ -46,7 +45,7 @@ class _ScanPageState extends State<ScanPage> {
                     new GestureDetector(
                       child: Center(
                         child:
-                        Text(((qrCodeResult == null) || (qrCodeResult == "")) ? "Cliquer sur l'icone pour scanner" : qrCodeResult,
+                        Text(((qrCodeResult == null) || (qrCodeResult == "")) ? "Cliquez sur l'icone pour scanner" : qrCodeResult,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
                         ),

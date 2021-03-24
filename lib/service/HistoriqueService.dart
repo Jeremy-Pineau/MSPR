@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:scanqrcode/model/ApiResponse.dart';
-import 'package:scanqrcode/model/ApiError.dart';
+import 'package:scanqrcode/model/dto/ApiResponse.dart';
+import 'package:scanqrcode/model/dto/ApiError.dart';
 import 'package:scanqrcode/model/Historique.dart';
 import 'package:http/http.dart' as http;
-import '../main.dart';
+import 'package:scanqrcode/model/dto/ApiUrl.dart';
 
 String _baseUrl = ApiUrl.url + "/historique";
 

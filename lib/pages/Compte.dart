@@ -19,16 +19,6 @@ class _Compte extends State<Compte> {
     return Scaffold(
         body: Column(
           children: <Widget>[
-            Padding(padding: EdgeInsets.only(top: 15.0),
-                child:
-                RichText(
-                  text: TextSpan(
-                    text: "Compte : ",
-                    style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
-                  ),
-                  textAlign: TextAlign.center,
-                )
-            ),
             Container(
               width: double.infinity,
               height: MediaQuery.of(context).size.height * 0.60,
@@ -37,10 +27,15 @@ class _Compte extends State<Compte> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYmGZO_o8W8nOdixsSxkmRPvgswXslVRBqpQ&usqp=CAU"),
-                      radius: 50.0
-                    ),
+                    ConstrainedBox(
+                      constraints: BoxConstraints.tightFor(width: MediaQuery.of(context).size.width/3.5, height: MediaQuery.of(context).size.height/5.5),
+                      child:
+                        FloatingActionButton(
+                          onPressed: (){},
+                          backgroundColor: Colors.grey,
+                          child: Icon(Icons.person, size: 80),
+                        )
+                      ),
                     SizedBox(
                       height: 10.0,
                     ),
@@ -48,7 +43,6 @@ class _Compte extends State<Compte> {
                       '$_nom $_prenom',
                       style: TextStyle(
                       fontSize: 22.0,
-                      color: Colors.white,
                       ),
                       ),
                     SizedBox(
@@ -57,10 +51,9 @@ class _Compte extends State<Compte> {
                     Card(
                       margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
                       clipBehavior: Clip.antiAlias,
-                      color: Colors.white,
                       elevation: 5.0,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 15.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 7.0),
                         child: Row(
                           children: [
                             Expanded(
@@ -69,7 +62,6 @@ class _Compte extends State<Compte> {
                                 Text(
                                 "Mail",
                                 style: TextStyle(
-                                  color: Colors.redAccent,
                                   fontSize: 22.0,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -81,7 +73,6 @@ class _Compte extends State<Compte> {
                                   '$_mail',
                                   style: TextStyle(
                                     fontSize: 20.0,
-                                    color: Colors.pinkAccent,
                                   ),
                                 )
                               ],
@@ -92,12 +83,11 @@ class _Compte extends State<Compte> {
                       )
                     ),
                     Card(
-                        margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 5.0),
+                        margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 0.0),
                         clipBehavior: Clip.antiAlias,
-                        color: Colors.white,
                         elevation: 5.0,
                         child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 15.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 7.0),
                             child: Row(
                                 children: [
                                   Expanded(
@@ -106,7 +96,6 @@ class _Compte extends State<Compte> {
                                         Text(
                                           "Adresse",
                                           style: TextStyle(
-                                            color: Colors.redAccent,
                                             fontSize: 22.0,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -118,7 +107,6 @@ class _Compte extends State<Compte> {
                                           '$_adresse',
                                           style: TextStyle(
                                             fontSize: 20.0,
-                                            color: Colors.pinkAccent,
                                           ),
                                         )
                                       ],
@@ -148,15 +136,15 @@ class _Compte extends State<Compte> {
                     gradient: LinearGradient(
                     begin: Alignment.centerRight,
                     end: Alignment.centerLeft,
-                    colors: [Colors.grey, Colors.white]
+                    colors: [Colors.white38, Colors.white12]
                     ),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   child: Container(
-                    constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+                    constraints: BoxConstraints(minHeight: 40.0),
                     alignment: Alignment.center,
                     child: Text("Modifier",
-                      style: TextStyle(color: Colors.pinkAccent, fontSize: 26.0, fontWeight:FontWeight.w300),
+                      style: TextStyle(fontSize: 24.0, fontWeight:FontWeight.w300),
                       ),
                     )
                   )

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:scanqrcode/model/ApiResponse.dart';
-import 'package:scanqrcode/model/ApiError.dart';
+import 'package:scanqrcode/model/dto/ApiResponse.dart';
+import 'package:scanqrcode/model/dto/ApiError.dart';
 import 'package:scanqrcode/model/User.dart';
 import 'package:scanqrcode/service/UserService.dart';
 import 'package:shared_preferences/shared_preferences.dart';

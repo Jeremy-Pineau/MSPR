@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:settings_ui/settings_ui.dart';
 import '../service/UserService.dart' as us;
+import 'CGUs.dart';
+import 'Licence.dart';
+import 'UpdateUser.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -8,46 +12,71 @@ class Settings extends StatefulWidget {
 }
 
 class _Settings extends State<Settings> {
+  bool digit = false;
+  bool notificationsEnabled = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body:
-        Center(
-          child:
-            Column(
-                children: [
-                  Padding(padding: EdgeInsets.all(15.0),
-                    child:
-                      RichText(
-                        text: TextSpan(
-                          text: "Settings : ",
-                          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
-                        ),
-                        textAlign: TextAlign.center,
-                      )
-                  ),
-                  Container(
-                    child:
-                    Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.25),
-                      child:
-                        ElevatedButton.icon(
-                            onPressed: _handleLogout,
-                            icon: Icon(Icons.logout),
-                            label: Text('Logout')
-                        ),
-                    )
-                  ),
-                  Container(
-                    child:
-                      Padding(padding: EdgeInsets.only(top: 25.0),
-                        child:
-                          ElevatedButton.icon(
-                            onPressed: _deleteUser,
-                            icon: Icon(Icons.delete),
-                            label: Text('Supprimer le compte')
-                        ),
-                  )),
-            ])
+        SettingsList(
+          sections: [
+            SettingsSection(
+              title: '\nGénéral',
+              tiles: [
+                SettingsTile(
+                  title: 'Langue',
+                  subtitle: 'Français',
+                  leading: Icon(Icons.language),
+                )
+              ],
+            ),
+            SettingsSection(
+              title: 'Compte',
+              tiles: [
+                SettingsTile(title: 'Modifier le compte', leading: Icon(Icons.create_rounded), onPressed: (context){Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateUser()));},),
+                SettingsTile(title: 'Déconnection', leading: Icon(Icons.exit_to_app), onPressed: (context) => _handleLogout()),
+                SettingsTile(title: 'Supprimer le compte', leading: Icon(Icons.delete), onPressed: (context) => _deleteUser()),
+              ],
+            ),
+            SettingsSection(
+              title: 'Sécurité',
+              tiles: [
+                SettingsTile.switchTile(
+                    title: 'Reconnaissance digitale',
+                    subtitle: 'Allow application to access stored fingerprint IDs.',
+                    leading: Icon(Icons.fingerprint),
+                    switchValue: digit,
+                    onToggle: (bool value) {
+                      setState(() {
+                        digit = value;
+                      });
+                    },
+                ),
+                SettingsTile.switchTile(
+                  title: 'Activer les notifications',
+                  leading: Icon(Icons.notifications_active),
+                  switchValue: notificationsEnabled,
+                  onToggle: (bool value) {
+                    setState(() {
+                      notificationsEnabled = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+            SettingsSection(
+              title: 'Autres',
+              tiles: [
+                SettingsTile(
+                    title: 'Conditions générales',
+                    leading: Icon(Icons.description), onPressed: (context) {Navigator.push(context, MaterialPageRoute(builder: (context) => CGUs()));},),
+                SettingsTile(
+                    title: 'Licence',
+                    leading: Icon(Icons.collections_bookmark), onPressed: (context) {Navigator.push(context, MaterialPageRoute(builder: (context) => Licence()));},),
+              ],
+            ),
+          ],
         )
     );
   }

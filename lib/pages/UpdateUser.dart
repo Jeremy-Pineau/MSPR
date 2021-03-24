@@ -1,14 +1,12 @@
-import 'dart:developer';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:scanqrcode/model/ApiError.dart';
-import 'package:scanqrcode/model/ApiResponse.dart';
+import 'package:scanqrcode/model/dto/ApiError.dart';
+import 'package:scanqrcode/model/dto/ApiResponse.dart';
 import 'package:scanqrcode/model/User.dart';
 import 'package:scanqrcode/service/UserService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'AppHome.dart';
-import 'Compte.dart';
+
 
 class UpdateUser extends StatefulWidget {
   @override
@@ -137,12 +135,22 @@ class _UpdateUser extends State<UpdateUser> {
                         onSaved: (String value) {
                           mdp = value;
                         },
+                        validator: (value) {
+                          if (value.length <= 5 && value.isNotEmpty) {
+                            return '6 caractères minimum';
+                          }
+                          return null;
+                        }
                       ),
                       const SizedBox(height: 10.0),
                       ButtonBar(
                         children: <Widget>[
-                          RaisedButton.icon(
+                          ElevatedButton.icon(
                               onPressed: _updateUser,
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.white, // background
+                                onPrimary: Colors.black, // foreground
+                              ),
                               icon: Icon(Icons.arrow_forward),
                               label: Text('Valider')),
                         ],

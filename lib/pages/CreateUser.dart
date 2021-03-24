@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:scanqrcode/model/ApiError.dart';
-import 'package:scanqrcode/model/ApiResponse.dart';
+import 'package:scanqrcode/model/dto/ApiError.dart';
+import 'package:scanqrcode/model/dto/ApiResponse.dart';
 import 'package:scanqrcode/model/User.dart';
 import 'package:scanqrcode/service/UserService.dart';
 import 'package:email_validator/email_validator.dart';
@@ -49,13 +49,16 @@ class _CreateUser extends State<CreateUser> {
                     children: <Widget>[
                       Center(
                         child:
-                          Text(
-                            '$info',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.red,
-                            ),
-                        )
+                        Padding(padding: EdgeInsets.only(top: 10.0),
+                            child:
+                            RichText(
+                              text: TextSpan(
+                                text: '$info',
+                                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900, color: Colors.red),
+                              ),
+                              textAlign: TextAlign.center,
+                            )
+                        ),
                       ),
                       TextFormField(
                         key: Key("_nom"),
@@ -125,8 +128,8 @@ class _CreateUser extends State<CreateUser> {
                           mdp = value;
                         },
                         validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Mail manquant';
+                          if (value.length <= 5) {
+                            return '6 caractères minimum';
                           }
                           return null;
                         },
@@ -134,10 +137,14 @@ class _CreateUser extends State<CreateUser> {
                       const SizedBox(height: 10.0),
                       ButtonBar(
                         children: <Widget>[
-                          RaisedButton.icon(
+                          ElevatedButton.icon(
                               onPressed: _createUser,
-                              icon: Icon(Icons.arrow_forward),
-                              label: Text('Créer')),
+                              icon: Icon(Icons.check),
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.white38, // background
+                                onPrimary: Colors.black, // foreground
+                              ),
+                              label: Text('Valider')),
                         ],
                       ),
                     ],

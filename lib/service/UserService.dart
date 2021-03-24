@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:scanqrcode/model/ApiResponse.dart';
-import 'package:scanqrcode/model/ApiError.dart';
+import 'package:scanqrcode/model/dto/ApiResponse.dart';
+import 'package:scanqrcode/model/dto/ApiError.dart';
 import 'package:scanqrcode/model/User.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
+import 'package:scanqrcode/model/dto/ApiUrl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../main.dart';
 
 String _baseUrl = ApiUrl.url + "/user";
 
