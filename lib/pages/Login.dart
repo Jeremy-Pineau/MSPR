@@ -1,11 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:scanqrcode/model/ApiResponse.dart';
+import 'package:scanqrcode/model/Historique.dart';
 import 'package:scanqrcode/model/User.dart';
+import 'package:scanqrcode/service/HistoriqueService.dart';
+import 'package:scanqrcode/service/PromotionService.dart';
 import 'package:scanqrcode/service/UserService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:scanqrcode/main.dart';
 import 'CreateUser.dart';
 
 class Login extends StatefulWidget {
@@ -133,6 +134,17 @@ class _Login extends State<Login> {
     await prefs.setString("mail", (_apiResponse.Data as User).mail);
     await prefs.setString("adresse", (_apiResponse.Data as User).adresse);
     await prefs.setString("mdp", (_apiResponse.Data as User).mdp);
+
+    HistoData.histos.clear();
+    HistoData.promos.clear();
+    ApiResponse resH = await getHistoriqueFromUser((_apiResponse.Data as User).id);
+    if (resH.Data != null) {
+      for(Historique h in resH.Data){
+        HistoData.histos.add(h);
+        getPromotion(h.idPromo).then((value) => HistoData.promos.add(value.Data));
+      }
+    }
+
     Navigator.pushNamedAndRemoveUntil(
         context, '/home', ModalRoute.withName('/home'),
         arguments: (_apiResponse.Data as User));

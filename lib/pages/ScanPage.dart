@@ -11,6 +11,8 @@ import 'package:scanqrcode/service/PromotionService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../main.dart';
+
 class ScanPage extends StatefulWidget {
   @override
   _ScanPageState createState() => _ScanPageState();
@@ -75,9 +77,12 @@ class _ScanPageState extends State<ScanPage> {
         ApiResponse res = await getHistoriqueFromUserAndPromo(id, int.parse(code[1]));
         if (res.Data == null){
           // Promotion pas dans l'historique de l'user
-          var responseCreate = await createHistorique(Historique(null, int.parse(code[1]), id, DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now()).toString()));
+          Historique h = Historique(null, int.parse(code[1]), id, DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now()).toString());
+          var responseCreate = await createHistorique(h);
           if (responseCreate.Data == 1){
             // Insertion réussie
+            HistoData.histos.add(h);
+            getPromotion(h.idPromo).then((value) => HistoData.promos.add(value.Data));
             setState(() {
               qrCodeResult = "Scan succes !";
             });

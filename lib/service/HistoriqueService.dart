@@ -4,8 +4,9 @@ import 'package:scanqrcode/model/ApiResponse.dart';
 import 'package:scanqrcode/model/ApiError.dart';
 import 'package:scanqrcode/model/Historique.dart';
 import 'package:http/http.dart' as http;
+import '../main.dart';
 
-String _baseUrl = "http://192.168.1.17:9000/historique";
+String _baseUrl = ApiUrl.url + "/historique";
 
 void traitementResponse(response, ApiResponse _apiResponse){
   switch (response.statusCode) {

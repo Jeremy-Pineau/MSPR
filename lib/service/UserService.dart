@@ -7,8 +7,9 @@ import 'package:scanqrcode/model/User.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../main.dart';
 
-String _baseUrl = "http://192.168.1.17:9000/user";
+String _baseUrl = ApiUrl.url + "/user";
 
 String hashMdp(String mdp) {
   String salt = 'UVocjgjgXg8P7zIsC93kKlRU8sPbTBhsAMFLnLUPDRYFIWAk';

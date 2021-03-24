@@ -11,29 +11,43 @@ class _Settings extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Container(
-                  child: Center(
+        body:
+        Center(
+          child:
+            Column(
+                children: [
+                  Padding(padding: EdgeInsets.all(15.0),
                     child:
-                    Text("Settings :",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
-                    ),
+                      RichText(
+                        text: TextSpan(
+                          text: "Settings : ",
+                          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
+                        ),
+                        textAlign: TextAlign.center,
+                      )
                   ),
-                ),
-              RaisedButton.icon(
-                  onPressed: _handleLogout,
-                  icon: Icon(Icons.logout),
-                  label: Text('Logout')
-              ),
-            RaisedButton.icon(
-                onPressed: _deleteUser,
-                icon: Icon(Icons.delete),
-                label: Text('Supprimer le compte')
-            ),
-            ],
+                  Container(
+                    child:
+                    Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.25),
+                      child:
+                        ElevatedButton.icon(
+                            onPressed: _handleLogout,
+                            icon: Icon(Icons.logout),
+                            label: Text('Logout')
+                        ),
+                    )
+                  ),
+                  Container(
+                    child:
+                      Padding(padding: EdgeInsets.only(top: 25.0),
+                        child:
+                          ElevatedButton.icon(
+                            onPressed: _deleteUser,
+                            icon: Icon(Icons.delete),
+                            label: Text('Supprimer le compte')
+                        ),
+                  )),
+            ])
         )
     );
   }

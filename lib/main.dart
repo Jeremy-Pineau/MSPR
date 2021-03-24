@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scanqrcode/pages/Login.dart';
+import 'model/Historique.dart';
+import 'model/Promotion.dart';
 import 'pages/AppHome.dart';
 import 'Landing.dart';
 
@@ -28,4 +30,16 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.dark,
     );
   }
+}
+
+class ApiUrl {
+  static String _url = "http://192.168.1.17:9000";
+  static String get url => _url;
+}
+
+class HistoData {
+  static List<Promotion> _promos = [];
+  static List<Historique> _histos = [];
+  static List<Historique> get histos => _histos;
+  static List<Promotion> get promos => _promos;
 }
