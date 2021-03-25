@@ -20,6 +20,7 @@ class _Settings extends State<Settings> {
     return Scaffold(
         body:
         SettingsList(
+          backgroundColor: Colors.white,
           sections: [
             SettingsSection(
               title: '\nGénéral',

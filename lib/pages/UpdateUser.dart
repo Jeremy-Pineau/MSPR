@@ -147,11 +147,11 @@ class _UpdateUser extends State<UpdateUser> {
                         children: <Widget>[
                           ElevatedButton.icon(
                               onPressed: _updateUser,
+                              icon: Icon(Icons.check),
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.white, // background
-                                onPrimary: Colors.black, // foreground
+                                primary: Color(0xffAAE0FE), // background
+                                onPrimary: Color(0xff3C3B3A), // foreground
                               ),
-                              icon: Icon(Icons.arrow_forward),
                               label: Text('Valider')),
                         ],
                       ),

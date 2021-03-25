@@ -141,8 +141,8 @@ class _CreateUser extends State<CreateUser> {
                               onPressed: _createUser,
                               icon: Icon(Icons.check),
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.white38, // background
-                                onPrimary: Colors.black, // foreground
+                                  primary: Color(0xffAAE0FE), // background
+                                  onPrimary: Color(0xff3C3B3A), // foreground
                               ),
                               label: Text('Valider')),
                         ],

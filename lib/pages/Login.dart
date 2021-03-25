@@ -21,7 +21,7 @@ class _Login extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   Key _scaffoldKey;
   ApiResponse _apiResponse;
-  String _info = "";
+  var info = Container();
 
   @override
   Widget build(BuildContext context) {
@@ -67,35 +67,23 @@ class _Login extends State<Login> {
                                 },
                               ),
                               const SizedBox(height: 10.0),
-                              Container(
-                                child:
-                                Padding(padding: EdgeInsets.only(top: 10.0),
-                                    child:
-                                    RichText(
-                                      text: TextSpan(
-                                        text: '$_info',
-                                        style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w900, color: Colors.red),
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    )
-                                ),
-                              ),
+                              info,
                               ButtonBar(
                                 children: <Widget>[
                                   ElevatedButton.icon(
                                       onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => CreateUser()));},
                                       icon: Icon(Icons.add),
                                       style: ElevatedButton.styleFrom(
-                                        primary: Colors.white38, // background
-                                        onPrimary: Colors.black, // foreground
+                                        primary: Color(0xffAAE0FE), // background
+                                        onPrimary: Color(0xff3C3B3A), // foreground
                                       ),
                                       label: Text('Inscription')),
                                   ElevatedButton.icon(
                                       onPressed: _handleSubmitted,
                                       icon: Icon(Icons.arrow_forward),
                                       style: ElevatedButton.styleFrom(
-                                        primary: Colors.white38, // background
-                                        onPrimary: Colors.black, // foreground
+                                        primary: Color(0xffAAE0FE), // background
+                                        onPrimary: Color(0xff3C3B3A), // foreground
                                       ),
                                       label: Text('Connection')),
                                 ],
@@ -112,6 +100,14 @@ class _Login extends State<Login> {
   }
 
   void _handleSubmitted() async {
+    setState(() {
+      info =
+          Container(
+            child: CircularProgressIndicator(
+              strokeWidth: 5.0,
+            ),
+      );
+    });
     final FormState form = _formKey.currentState;
     if (form.validate()) {
       form.save();
@@ -120,7 +116,19 @@ class _Login extends State<Login> {
         _saveAndRedirectToHome();
       } else {
         setState(() {
-          _info = "Identifiant ou mot de passe incorrect";
+          info = Container(
+            child:
+            Padding(padding: EdgeInsets.only(top: 10.0),
+                child:
+                RichText(
+                  text: TextSpan(
+                    text: "Identifiant ou mot de passe incorrect",
+                    style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w900, color: Colors.red),
+                  ),
+                  textAlign: TextAlign.center,
+                )
+            ),
+          );
         });
       }
     }

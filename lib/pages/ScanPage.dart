@@ -32,7 +32,7 @@ class _ScanPageState extends State<ScanPage> {
                     constraints: BoxConstraints.tightFor(width: MediaQuery.of(context).size.width/3, height: MediaQuery.of(context).size.height/5),
                       child:
                       FloatingActionButton(
-                        backgroundColor: Color(0xff3C3B3A),
+                        backgroundColor: Colors.black26,
                         elevation: 20,
                         onPressed: () {
                           _scan();

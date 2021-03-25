@@ -50,19 +50,22 @@ class _Historique extends State<HistoriquePage> {
                             shrinkWrap: true,
                             itemCount: histos.length,
                             itemBuilder: (context, i) {
-                              return Card(
-                                  elevation: 5.0,
-                                  color: Colors.black26,
-                                  child:
-                                  ListTile(
-                                      title: RichText(
-                                        text: TextSpan(
-                                          text: '${promos[i].codePromo} : ${promos[i].detail} \n ${histos[i].dateScan}',
-                                          style: TextStyle(fontSize: 15.0, color: Colors.white),
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      )
-                                  )
+                              return Padding(padding: EdgeInsets.only(bottom: 10.0),
+                                child:
+                                  Card(
+                                    elevation: 5.0,
+                                    color: Color(0xffAAE0FE),
+                                    child:
+                                    ListTile(
+                                        title: RichText(
+                                          text: TextSpan(
+                                            text: '${promos[i].codePromo} : ${promos[i].detail} \n ${histos[i].dateScan}',
+                                            style: TextStyle(fontSize: 15.0, color: Color(0xff3C3B3A),),
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        )
+                                    )
+                                )
                               );
                             }
                         )

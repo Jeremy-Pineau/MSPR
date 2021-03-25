@@ -19,10 +19,11 @@ class MyApp extends StatelessWidget {
       },
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        primaryColor: Color(0xff3C3B3A),
+        primaryColor: Color(0xffEDEDED),//Color(0xff3C3B3A),
         textTheme: Theme.of(context).textTheme.apply(
           bodyColor: Colors.black,
         ),
+        scaffoldBackgroundColor: Colors.white,
       ),
     );
   }
