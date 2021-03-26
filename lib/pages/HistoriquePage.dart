@@ -34,48 +34,47 @@ class _Historique extends State<HistoriquePage> {
                   child:
                   RichText(
                     text: TextSpan(
-                      text: "Aucun élément à afficher : ",
+                      text: "Aucun élément à afficher ",
                       style: TextStyle(fontSize: 22.0, color: Colors.black),
                     ),
                     textAlign: TextAlign.center,
                   )
               ),
-            Container(
-                child: Expanded(
-                    child:
-                    Scrollbar(
-                        child:
-                        ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: histos.length,
-                            itemBuilder: (context, i) {
-                              return Padding(padding: EdgeInsets.only(bottom: 10.0),
-                                child:
-                                  Card(
-                                    elevation: 5.0,
-                                    color: Color(0xffAAE0FE),
-                                    child:
-                                    ListTile(
-                                        title: RichText(
-                                          text: TextSpan(
-                                            text: '${promos[i].codePromo} : ${promos[i].detail} \n ${histos[i].dateScan}',
-                                            style: TextStyle(fontSize: 15.0, color: Color(0xff3C3B3A),),
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        )
-                                    )
-                                )
-                              );
-                            }
-                        )
-                    )
-                )
-            )
+            if(histos.isNotEmpty)
+              Container(
+                  child: Expanded(
+                      child:
+                      Scrollbar(
+                          child:
+                          ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemCount: histos.length,
+                              itemBuilder: (context, i) {
+                                return Padding(padding: EdgeInsets.only(bottom: 10.0),
+                                  child:
+                                    Card(
+                                      elevation: 5.0,
+                                      color: Color(0xffAAE0FE),
+                                      child:
+                                      ListTile(
+                                          title: RichText(
+                                            text: TextSpan(
+                                              text: '${promos[i].codePromo} : ${promos[i].detail} \n ${histos[i].dateScan}',
+                                              style: TextStyle(fontSize: 15.0, color: Color(0xff3C3B3A),),
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          )
+                                      )
+                                  )
+                                );
+                              }
+                          )
+                      )
+                  )
+              )
           ],
         )
     );
   }
-
-
 }

@@ -85,11 +85,11 @@ class _Settings extends State<Settings> {
   void _handleLogout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    Widget cancelButton = FlatButton(
+    Widget cancelButton = TextButton(
       child: Text("Annuler"),
       onPressed:  () {Navigator.of(context).pop();},
     );
-    Widget continueButton = FlatButton(
+    Widget continueButton = TextButton(
       child: Text("Continuer"),
       onPressed:  () {
         prefs.clear();
@@ -117,11 +117,11 @@ class _Settings extends State<Settings> {
   void _deleteUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // set up the buttons
-    Widget cancelButton = FlatButton(
+    Widget cancelButton = TextButton(
       child: Text("Annuler"),
       onPressed:  () {Navigator.of(context).pop();},
     );
-    Widget continueButton = FlatButton(
+    Widget continueButton = TextButton(
       child: Text("Continuer"),
       onPressed:  () {
         us.deleteUser(prefs.getInt("id"));

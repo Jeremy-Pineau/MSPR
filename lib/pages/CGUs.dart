@@ -1,14 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:scanqrcode/model/dto/ApiResponse.dart';
-import 'package:scanqrcode/model/Historique.dart';
-import 'package:scanqrcode/service/HistoriqueService.dart';
-import 'package:scanqrcode/service/PromotionService.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../main.dart';
 
 class CGUs extends StatefulWidget {
   @override

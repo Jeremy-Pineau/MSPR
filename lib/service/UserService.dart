@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:scanqrcode/model/dto/ApiResponse.dart';
 import 'package:scanqrcode/model/dto/ApiError.dart';

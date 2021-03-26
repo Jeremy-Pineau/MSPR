@@ -131,6 +131,7 @@ class _Compte extends State<Compte> {
             ),
             Container(
               width: 300.00,
+              // ignore: deprecated_member_use
               child: RaisedButton(
                 onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateUser()));},
                 shape: RoundedRectangleBorder(
