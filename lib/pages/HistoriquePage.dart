@@ -58,6 +58,27 @@ class _Historique extends State<HistoriquePage> {
                                       color: Color(0xffAAE0FE),
                                       child:
                                       ListTile(
+                                        onTap: () {
+                                          Widget cancelButton = TextButton(
+                                            child: Text("Ok"),
+                                            onPressed:  () {Navigator.of(context).pop();},
+                                          );
+                                          // set up the AlertDialog
+                                          AlertDialog alert = AlertDialog(
+                                            title: Text("Promotion :"),
+                                            content: Text("Code : \n ${promos[i].codePromo} \n\n"
+                                                          "Date de scan : \n ${histos[i].dateScan} \n\n"
+                                                          "Détail : \n ${promos[i].detail}"),
+                                            actions: [cancelButton],
+                                          );
+                                          // show the dialog
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return alert;
+                                            },
+                                          );
+                                        },
                                           title: RichText(
                                             text: TextSpan(
                                               text: '${promos[i].codePromo} : ${promos[i].detail} \n ${histos[i].dateScan}',
