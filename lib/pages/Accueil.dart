@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -7,11 +10,15 @@ class Accueil extends StatefulWidget {
 }
 
 class _Accueil extends State<Accueil> {
-  List<Image> actus = [
-    Image.asset("assets/img/i1.jpg"),
-    Image.asset("assets/img/i2.jpg"),
-    Image.asset("assets/img/i3.jpg"),
-    Image.asset("assets/img/i4.jpg")
+  List<String> imgs = [
+    "assets/img/i1.jpg",
+    "assets/img/i2.jpg",
+    "assets/img/i3.jpg"
+  ];
+  List<String> actus = [
+    "Ventes privées collection hommes très bientôt !",
+    "Restockage collection femmes !",
+    "Nouvelle collection sport !"
   ];
 
   @override
@@ -70,16 +77,33 @@ class _Accueil extends State<Accueil> {
                                         autoPlayCurve: Curves.fastOutSlowIn,
                                         enlargeCenterPage: true,
                                         scrollDirection: Axis.horizontal,
-                                        ),
-                                      items: actus.map((i) {
-                                        Builder(
+                                      ),
+                                      items: imgs.map((img) {
+                                        return Builder(
                                           builder: (BuildContext context) {
-                                            return i;
+                                            return Column(
+                                                children: [
+                                                  SizedBox(
+                                                    height: 15.0,
+                                                  ),
+                                                  RichText(
+                                                    text: TextSpan(
+                                                      text: '${actus[imgs.indexOf(img)]}',
+                                                      style: TextStyle(fontSize: 17.0, color: Colors.black),
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(top: 10.0),
+                                                    child: Image(image: AssetImage(img))
+                                                  )
+                                                ]
+                                            );
                                           },
                                         );
-                                      }).toList(),
-                                    )
-                                  ),
+                                      }).toList()
+                                    ),
+                                  )
                                 ],
                               ),
                             ),
