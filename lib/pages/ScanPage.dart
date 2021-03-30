@@ -17,6 +17,17 @@ class ScanPage extends StatefulWidget {
 
 class _ScanPageState extends State<ScanPage> {
   String qrCodeResult;
+  var _info = Container(
+      child:
+      Center(
+        child:
+        Text("Cliquez sur l'icone pour scanner",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
+        ),
+      )
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,18 +51,7 @@ class _ScanPageState extends State<ScanPage> {
                         child: Icon(Icons.qr_code_scanner, size: 55.0),
                       ),
                     )),
-                Container(
-                    child:
-                    new GestureDetector(
-                      child: Center(
-                        child:
-                        Text(((qrCodeResult == null) || (qrCodeResult == "")) ? "Cliquez sur l'icone pour scanner" : qrCodeResult,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
-                        ),
-                      ),
-                    )
-                )
+                _info,
               ],
           )
     );
@@ -63,7 +63,14 @@ class _ScanPageState extends State<ScanPage> {
         useCamera: 0,
       ),
     );
-
+    setState(() {
+      _info =
+          Container(
+            child: CircularProgressIndicator(
+              strokeWidth: 5.0,
+            )
+          );
+    });
     // parse le qrcode
     var code = codeSanner.rawContent.split(";");
     if (code[0] == "qrScanAppMspr"){
@@ -77,32 +84,77 @@ class _ScanPageState extends State<ScanPage> {
         if (res.Data == null){
           // Promotion pas dans l'historique de l'user
           Historique h = Historique(null, int.parse(code[1]), id, DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now()).toString());
-          var responseCreate = await createHistorique(h);
-          if (responseCreate.Data == 1){
+          ApiResponse responseCreate = await createHistorique(h);
+          if (responseCreate.Data != null){
             // Insertion réussie
             HistoData.histos.add(h);
             getPromotion(h.idPromo).then((value) => HistoData.promos.add(value.Data));
             setState(() {
-              qrCodeResult = "Scan succes !";
+              _info = Container(
+                  child:
+                  Center(
+                    child:
+                    Text("Scan succes !",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
+                    ),
+                  )
+              );
             });
           } else {
             setState(() {
-              qrCodeResult = "Erreur serveur";
+              _info = Container(
+                  child:
+                  Center(
+                    child:
+                    Text("Erreur serveur",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
+                    ),
+                  )
+              );
             });
           }
         } else {
           setState(() {
-            qrCodeResult = "Promotion déjà scanée";
+            _info = Container(
+                child:
+                Center(
+                  child:
+                  Text("Promotion déjà scanée",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
+                  ),
+                )
+            );
           });
         }
       } else {
         setState(() {
-          qrCodeResult = "La promotion liée à ce code n'existe pas/plus";
+          _info = Container(
+              child:
+              Center(
+                child:
+                Text("La promotion liée à ce code n'existe pas/plus",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
+                ),
+              )
+          );
         });
       }
     } else{
       setState(() {
-        qrCodeResult = "Code non conforme à l'app";
+        _info = Container(
+            child:
+            Center(
+              child:
+              Text("Code non conforme à l'app",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
+              ),
+            )
+        );
       });
     }
   }
