@@ -1,14 +1,16 @@
 class User {
 
+  int _id;
   String _nom;
   String _prenom;
   String _adresse;
   String _mail;
   String _mdp;
 
-  User(this._nom, this._prenom, this._adresse, this._mail, this._mdp);
+  User(this._id, this._nom, this._prenom, this._adresse, this._mail, this._mdp);
 
-  constructorUser({String nom, String prenom, String adresse, String mail, String mdp}) {
+  constructorUser({int id, String nom, String prenom, String adresse, String mail, String mdp}) {
+    this._id = id;
     this._nom = nom;
     this._prenom = prenom;
     this._adresse = adresse;
@@ -17,6 +19,8 @@ class User {
   }
 
   // Properties
+  int get id => _id;
+  set id(int id) => _id = id;
   String get nom => _nom;
   set nom(String nom) => _nom = nom;
   String get prenom => _prenom;
@@ -30,16 +34,18 @@ class User {
 
   // create the user object from json input
   User.fromJson(Map<String, dynamic> json) {
-  _nom = json['nom'];
-  _prenom = json['prenom'];
-  _adresse = json['adresse'];
-  _mail = json['mail'];
-  _mdp = json['mdp'];
+    _id = json['id'];
+    _nom = json['nom'];
+    _prenom = json['prenom'];
+    _adresse = json['adresse'];
+    _mail = json['mail'];
+    _mdp = json['mdp'];
   }
 
   // exports to json
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this._id;
     data['nom'] = this._nom;
     data['prenom'] = this._prenom;
     data['adresse'] = this._adresse;

@@ -1,7 +1,8 @@
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'Accueil.dart';
 import 'Compte.dart';
-import 'Historique.dart';
+import 'HistoriquePage.dart';
 import 'ScanPage.dart';
 import 'Settings.dart';
 
@@ -26,51 +27,46 @@ class _AppHomeState extends State<AppHome> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("TitleApp"),
-        elevation: 0.7,
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.qr_code_scanner),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
-            },
+    return DefaultTabController(
+        child:
+          Scaffold(
+            appBar: AppBar(
+              title: Text("QRScanner"),
+              elevation: 0.7,
+              actions: <Widget>[
+                FloatingActionButton(
+                  backgroundColor: Colors.black12,
+                  child: Icon(Icons.qr_code_scanner, size: 30),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ScanPage()));
+                  },
+                )
+              ],
+            ),
+            body: TabBarView(
+              controller: _tabController,
+              children: <Widget>[
+                Accueil(),
+                HistoriquePage(),
+                Compte(),
+                Settings(),
+              ],
+            ),
+            bottomNavigationBar:
+              ConvexAppBar(
+                backgroundColor: Color(0xff3C3B3A),
+                color: Colors.white,
+                controller: _tabController,
+                items: [
+                  TabItem(icon: Icons.home_filled, title: 'Accueil'),
+                  TabItem(icon: Icons.history, title: 'Historique'),
+                  TabItem(icon: Icons.person, title: 'Profil'),
+                  TabItem(icon: Icons.settings, title: 'Paramètres'),
+                ],
+                initialActiveIndex: 0,//optional, default as 0
+              )
           )
-        ],
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: <Widget>[
-          Accueil(),
-          Historique(),
-          Compte(),
-          Settings(),
-        ],
-      ),
-        bottomNavigationBar: TabBar(
-          controller: _tabController,
-          indicator: ShapeDecoration (
-              shape: UnderlineInputBorder (
-                  borderSide: BorderSide(
-                    color: Colors.black,
-                    width: 5,
-                    style: BorderStyle.solid
-                  )
-                ),
-              gradient: LinearGradient(colors: [Colors.transparent, Colors.white]),
-            ),
-          tabs: <Widget>[
-            Tab(icon: Icon(Icons.home_filled)),
-            Tab(icon: Icon(Icons.history)),
-            Tab(
-            icon: Icon(Icons.person),
-            ),
-            Tab(
-            icon: Icon(Icons.settings),
-            ),
-          ],
-        ),
+        ,length: 4
     );
   }
 }

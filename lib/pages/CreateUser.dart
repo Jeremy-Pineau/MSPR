@@ -1,42 +1,35 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:scanqrcode/model/dto/ApiError.dart';
 import 'package:scanqrcode/model/dto/ApiResponse.dart';
 import 'package:scanqrcode/model/User.dart';
 import 'package:scanqrcode/service/UserService.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'AppHome.dart';
+import 'package:email_validator/email_validator.dart';
 
+import 'Login.dart';
 
-class UpdateUser extends StatefulWidget {
+class CreateUser extends StatefulWidget {
   @override
-  _UpdateUser createState() => _UpdateUser();
+  _CreateUser createState() => _CreateUser();
 }
 
-class _UpdateUser extends State<UpdateUser> {
+class _CreateUser extends State<CreateUser> {
 
   final _formKey = GlobalKey<FormState>();
   ApiResponse _apiResponse;
-  String info = "";
   Key _scaffoldKey;
-  final controllerNom = TextEditingController();
-  final controllerPrenom = TextEditingController();
-  final controllerAdresse = TextEditingController();
-  final controllerMail = TextEditingController();
-  final controllerMdp = TextEditingController();
   String nom;
   String prenom;
   String mail;
   String adresse;
   String mdp;
+  String info = "";
 
   @override
   Widget build(BuildContext context) {
-    _setattributs();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Modification du compte'),
+        title: Text('Création de compte'),
       ),
       body: SafeArea(
         top: false,
@@ -55,19 +48,21 @@ class _UpdateUser extends State<UpdateUser> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Center(
-                          child:
-                          Text(
-                            '$info',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color: Colors.red,
-                            ),
-                          )
+                        child:
+                        Padding(padding: EdgeInsets.only(top: 10.0),
+                            child:
+                            RichText(
+                              text: TextSpan(
+                                text: '$info',
+                                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900, color: Colors.red),
+                              ),
+                              textAlign: TextAlign.center,
+                            )
+                        ),
                       ),
                       TextFormField(
                         key: Key("_nom"),
                         decoration: InputDecoration(labelText: "Nom"),
-                        controller: controllerNom,
                         keyboardType: TextInputType.text,
                         onSaved: (String value) {
                           nom = value;
@@ -82,7 +77,6 @@ class _UpdateUser extends State<UpdateUser> {
                       TextFormField(
                         key: Key("_prenom"),
                         decoration: InputDecoration(labelText: "Prénom"),
-                        controller: controllerPrenom,
                         onSaved: (String value) {
                           prenom = value;
                         },
@@ -97,7 +91,6 @@ class _UpdateUser extends State<UpdateUser> {
                         key: Key("_adresse"),
                         decoration: InputDecoration(labelText: "Adresse"),
                         keyboardType: TextInputType.text,
-                        controller: controllerAdresse,
                         onSaved: (String value) {
                           adresse = value;
                         },
@@ -112,7 +105,6 @@ class _UpdateUser extends State<UpdateUser> {
                         key: Key("_mail"),
                         decoration: InputDecoration(labelText: "Mail"),
                         keyboardType: TextInputType.emailAddress,
-                        controller: controllerMail,
                         onSaved: (String value) {
                           mail = value;
                         },
@@ -136,21 +128,21 @@ class _UpdateUser extends State<UpdateUser> {
                           mdp = value;
                         },
                         validator: (value) {
-                          if (value.length <= 5 && value.isNotEmpty) {
+                          if (value.length <= 5) {
                             return '6 caractères minimum';
                           }
                           return null;
-                        }
+                        },
                       ),
                       const SizedBox(height: 10.0),
                       ButtonBar(
                         children: <Widget>[
                           ElevatedButton.icon(
-                              onPressed: _updateUser,
+                              onPressed: _createUser,
                               icon: Icon(Icons.check),
                               style: ElevatedButton.styleFrom(
-                                primary: Color(0xffAAE0FE), // background
-                                onPrimary: Color(0xff3C3B3A), // foreground
+                                  primary: Color(0xffAAE0FE), // background
+                                  onPrimary: Color(0xff3C3B3A), // foreground
                               ),
                               label: Text('Valider')),
                         ],
@@ -164,34 +156,17 @@ class _UpdateUser extends State<UpdateUser> {
     );
   }
 
-  void _setattributs() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    controllerNom.text = prefs.get("nom");
-    controllerPrenom.text = prefs.get("prenom");
-    controllerMail.text = prefs.get("mail");
-    controllerAdresse.text = prefs.get("adresse");
-  }
-
-  void _updateUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  void _createUser() async {
     _formKey.currentState.save();
     if (_formKey.currentState.validate()) {
-      _apiResponse = await updateUser(User(prefs.getInt("id"), nom, prenom, adresse, mail, mdp));
-      if ((_apiResponse.ApiError as ApiError) == null) {
-        if (_apiResponse.UpdateMdp) {
-          prefs.clear();
-          Navigator.pushNamedAndRemoveUntil(
-              context, '/login', ModalRoute.withName('/login'));
-        } else {
-          User user = _apiResponse.Data;
-          prefs.setString("nom", user.nom);
-          prefs.setString("prenom", user.prenom);
-          prefs.setString("mail", user.mail);
-          prefs.setString("adresse", user.adresse);
-          prefs.setString("mdp", user.mdp);
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AppHome()));
-        }
+      _apiResponse = await createUser(User(null, nom, prenom, adresse, mail, mdp));
+      if ((_apiResponse.ApiError as ApiError) != null) {
+        setState(() {
+          info = "Mail déjà existant";
+        });
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Login()));
       }
     } else {
       setState(() {

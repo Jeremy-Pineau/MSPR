@@ -1,14 +1,14 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
-import 'package:scanqrcode/model/ApiResponse.dart';
-import 'package:scanqrcode/model/ApiError.dart';
+import 'package:scanqrcode/model/dto/ApiResponse.dart';
+import 'package:scanqrcode/model/dto/ApiError.dart';
 import 'package:scanqrcode/model/User.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
+import 'package:scanqrcode/model/dto/ApiUrl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String _baseUrl = "http://192.168.43.187:9000/";
+String _baseUrl = ApiUrl.url + "/user";
 
 String hashMdp(String mdp) {
   String salt = 'UVocjgjgXg8P7zIsC93kKlRU8sPbTBhsAMFLnLUPDRYFIWAk';
@@ -35,7 +35,7 @@ Future<ApiResponse> authenticateUser(String username, String password) async {
   ApiResponse _apiResponse = new ApiResponse();
 
   try {
-    final response = await http.post('${_baseUrl}user/login',
+    final response = await http.post('$_baseUrl/login',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -61,7 +61,7 @@ Future<ApiResponse> createUser(User user) async {
 
   try {
     user.mdp = hashMdp(user.mdp);
-    final response = await http.post('${_baseUrl}user',
+    final response = await http.post('$_baseUrl',
         headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'},
         body: jsonEncode(user));
 
@@ -73,10 +73,10 @@ Future<ApiResponse> createUser(User user) async {
   return _apiResponse;
 }
 
-Future<ApiResponse> getUser(String userId) async {
+Future<ApiResponse> getUser(int userId) async {
   ApiResponse _apiResponse = new ApiResponse();
   try {
-    final response = await http.get('${_baseUrl}user/$userId');
+    final response = await http.get('$_baseUrl/$userId');
 
     traitementResponse(response, _apiResponse);
 
@@ -86,10 +86,10 @@ Future<ApiResponse> getUser(String userId) async {
   return _apiResponse;
 }
 
-Future<ApiResponse> deleteUser(String userId) async {
+Future<ApiResponse> deleteUser(int userId) async {
   ApiResponse _apiResponse = new ApiResponse();
   try {
-    final response = await http.delete('${_baseUrl}user/$userId');
+    final response = await http.delete('$_baseUrl/$userId');
 
     traitementResponse(response, _apiResponse);
 
@@ -103,7 +103,6 @@ Future<ApiResponse> updateUser(User user) async {
   ApiResponse _apiResponse = new ApiResponse();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool modifMdp = false;
-  String mail = prefs.get("mail");
   if (user.mdp.isEmpty){
     user.mdp = prefs.get("mdp");
   } else {
@@ -111,7 +110,7 @@ Future<ApiResponse> updateUser(User user) async {
     modifMdp = true;
   }
   try {
-    final response = await http.put('${_baseUrl}user/$mail',
+    final response = await http.put('$_baseUrl/${user.id}',
       headers: <String, String>{'Content-Type': 'application/json; charset=UTF-8'},
       body: jsonEncode(user)
     );

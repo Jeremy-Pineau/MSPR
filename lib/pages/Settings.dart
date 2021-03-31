@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:settings_ui/settings_ui.dart';
 import '../service/UserService.dart' as us;
+import 'CGUs.dart';
+import 'Licence.dart';
+import 'UpdateUser.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -8,32 +12,72 @@ class Settings extends StatefulWidget {
 }
 
 class _Settings extends State<Settings> {
+  bool digit = false;
+  bool notificationsEnabled = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Container(
-                  child: Center(
-                    child:
-                    Text("Settings :",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w900),
-                    ),
-                  ),
-                ),
-              RaisedButton.icon(
-                  onPressed: _handleLogout,
-                  icon: Icon(Icons.logout),
-                  label: Text('Logout')
-              ),
-            RaisedButton.icon(
-                onPressed: _deleteUser,
-                icon: Icon(Icons.delete),
-                label: Text('Supprimer le compte')
+        body:
+        SettingsList(
+          backgroundColor: Colors.white,
+          sections: [
+            SettingsSection(
+              title: '\nGénéral',
+              tiles: [
+                SettingsTile(
+                  title: 'Langue',
+                  subtitle: 'Français',
+                  leading: Icon(Icons.language),
+                )
+              ],
             ),
-            ],
+            SettingsSection(
+              title: 'Compte',
+              tiles: [
+                SettingsTile(title: 'Modifier le compte', leading: Icon(Icons.create_rounded), onPressed: (context){Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateUser()));},),
+                SettingsTile(title: 'Déconnection', leading: Icon(Icons.exit_to_app), onPressed: (context) => _handleLogout()),
+                SettingsTile(title: 'Supprimer le compte', leading: Icon(Icons.delete), onPressed: (context) => _deleteUser()),
+              ],
+            ),
+            SettingsSection(
+              title: 'Sécurité',
+              tiles: [
+                SettingsTile.switchTile(
+                    title: 'Reconnaissance digitale',
+                    subtitle: 'Allow application to access stored fingerprint IDs.',
+                    leading: Icon(Icons.fingerprint),
+                    switchValue: digit,
+                    onToggle: (bool value) {
+                      setState(() {
+                        digit = value;
+                      });
+                    },
+                ),
+                SettingsTile.switchTile(
+                  title: 'Activer les notifications',
+                  leading: Icon(Icons.notifications_active),
+                  switchValue: notificationsEnabled,
+                  onToggle: (bool value) {
+                    setState(() {
+                      notificationsEnabled = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+            SettingsSection(
+              title: 'Autres',
+              tiles: [
+                SettingsTile(
+                    title: 'Conditions générales',
+                    leading: Icon(Icons.description), onPressed: (context) {Navigator.push(context, MaterialPageRoute(builder: (context) => CGUs()));},),
+                SettingsTile(
+                    title: 'Licence',
+                    leading: Icon(Icons.collections_bookmark), onPressed: (context) {Navigator.push(context, MaterialPageRoute(builder: (context) => Licence()));},),
+              ],
+            ),
+          ],
         )
     );
   }
@@ -41,11 +85,11 @@ class _Settings extends State<Settings> {
   void _handleLogout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    Widget cancelButton = FlatButton(
+    Widget cancelButton = TextButton(
       child: Text("Annuler"),
       onPressed:  () {Navigator.of(context).pop();},
     );
-    Widget continueButton = FlatButton(
+    Widget continueButton = TextButton(
       child: Text("Continuer"),
       onPressed:  () {
         prefs.clear();
@@ -73,15 +117,16 @@ class _Settings extends State<Settings> {
   void _deleteUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // set up the buttons
-    Widget cancelButton = FlatButton(
+    Widget cancelButton = TextButton(
       child: Text("Annuler"),
       onPressed:  () {Navigator.of(context).pop();},
     );
-    Widget continueButton = FlatButton(
+    Widget continueButton = TextButton(
       child: Text("Continuer"),
       onPressed:  () {
-        us.deleteUser(prefs.getString("mail"));
-        _handleLogout();
+        us.deleteUser(prefs.getInt("id"));
+        prefs.clear();
+        Navigator.pushNamedAndRemoveUntil(context, '/login', ModalRoute.withName('/login'));
       },
     );
     // set up the AlertDialog

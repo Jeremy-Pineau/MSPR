@@ -11,21 +11,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'QR Code',
+      title: 'QRScanner',
       routes: {
         '/': (context) => Landing(),
         '/login': (context) => Login(),
         '/home': (context) => AppHome(),
       },
       theme: ThemeData(
-        primaryColor: Colors.white,
-        brightness: Brightness.light,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        primaryColor: Color(0xffEDEDED),//Color(0xff3C3B3A),
+        textTheme: Theme.of(context).textTheme.apply(
+          bodyColor: Colors.black,
+        ),
+        scaffoldBackgroundColor: Colors.white,
       ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-      ),
-      themeMode: ThemeMode.dark,
     );
   }
 }

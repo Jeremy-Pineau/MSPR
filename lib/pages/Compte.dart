@@ -8,10 +8,10 @@ class Compte extends StatefulWidget {
 }
 
 class _Compte extends State<Compte> {
-  String _nom;
-  String _prenom;
-  String _mail;
-  String _adresse;
+  String _nom = "";
+  String _prenom = "";
+  String _mail = "";
+  String _adresse = "";
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +21,21 @@ class _Compte extends State<Compte> {
           children: <Widget>[
             Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.65,
+              height: MediaQuery.of(context).size.height * 0.60,
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      backgroundImage: NetworkImage("https://www.w3schools.com/howto/img_avatar.png"),
-                      radius: 50.0
-                    ),
+                    ConstrainedBox(
+                      constraints: BoxConstraints.tightFor(width: MediaQuery.of(context).size.width/3.5, height: MediaQuery.of(context).size.height/5.5),
+                      child:
+                        FloatingActionButton(
+                          onPressed: (){},
+                          backgroundColor: Color(0xffAAE0FE),
+                          child: Icon(Icons.person, size: 80),
+                        )
+                      ),
                     SizedBox(
                       height: 10.0,
                     ),
@@ -38,19 +43,18 @@ class _Compte extends State<Compte> {
                       '$_nom $_prenom',
                       style: TextStyle(
                       fontSize: 22.0,
-                      color: Colors.white,
                       ),
                       ),
                     SizedBox(
-                      height: 10.0
+                      height: 15.0
                     ),
                     Card(
                       margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 20.0),
                       clipBehavior: Clip.antiAlias,
-                      color: Colors.white,
                       elevation: 5.0,
+                      color: Colors.white70,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 15.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 7.0),
                         child: Row(
                           children: [
                             Expanded(
@@ -59,9 +63,9 @@ class _Compte extends State<Compte> {
                                 Text(
                                 "Mail",
                                 style: TextStyle(
-                                  color: Colors.redAccent,
-                                  fontSize: 22.0,
+                                  fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
+                                  color: Color(0xff3C3B3A),
                                 ),
                                 ),
                                 SizedBox(
@@ -70,8 +74,8 @@ class _Compte extends State<Compte> {
                                 Text(
                                   '$_mail',
                                   style: TextStyle(
-                                    fontSize: 20.0,
-                                    color: Colors.pinkAccent,
+                                    fontSize: 18.0,
+                                    color: Color(0xff3C3B3A),
                                   ),
                                 )
                               ],
@@ -82,12 +86,12 @@ class _Compte extends State<Compte> {
                       )
                     ),
                     Card(
-                        margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 5.0),
+                        margin: EdgeInsets.symmetric(horizontal: 20.0,vertical: 0.0),
                         clipBehavior: Clip.antiAlias,
-                        color: Colors.white,
+                        color: Colors.white70,
                         elevation: 5.0,
                         child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 15.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 7.0),
                             child: Row(
                                 children: [
                                   Expanded(
@@ -96,9 +100,9 @@ class _Compte extends State<Compte> {
                                         Text(
                                           "Adresse",
                                           style: TextStyle(
-                                            color: Colors.redAccent,
-                                            fontSize: 22.0,
+                                            fontSize: 20.0,
                                             fontWeight: FontWeight.bold,
+                                            color: Color(0xff3C3B3A),
                                           ),
                                         ),
                                         SizedBox(
@@ -107,8 +111,8 @@ class _Compte extends State<Compte> {
                                         Text(
                                           '$_adresse',
                                           style: TextStyle(
-                                            fontSize: 20.0,
-                                            color: Colors.pinkAccent,
+                                            fontSize: 18.0,
+                                            color: Color(0xff3C3B3A),
                                           ),
                                         )
                                       ],
@@ -127,6 +131,7 @@ class _Compte extends State<Compte> {
             ),
             Container(
               width: 300.00,
+              // ignore: deprecated_member_use
               child: RaisedButton(
                 onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateUser()));},
                 shape: RoundedRectangleBorder(
@@ -138,15 +143,15 @@ class _Compte extends State<Compte> {
                     gradient: LinearGradient(
                     begin: Alignment.centerRight,
                     end: Alignment.centerLeft,
-                    colors: [Colors.grey, Colors.white]
+                    colors: [Colors.lightBlueAccent, Colors.lightBlue]
                     ),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
                   child: Container(
-                    constraints: BoxConstraints(maxWidth: 300.0, minHeight: 50.0),
+                    constraints: BoxConstraints(minHeight: 40.0),
                     alignment: Alignment.center,
                     child: Text("Modifier",
-                      style: TextStyle(color: Colors.pinkAccent, fontSize: 26.0, fontWeight:FontWeight.w300),
+                      style: TextStyle(fontSize: 22.0, fontWeight:FontWeight.w300, color: Colors.white),
                       ),
                     )
                   )
